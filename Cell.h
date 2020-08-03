@@ -105,7 +105,7 @@ public:
 	double startTime;
 	double endTime;
 	double elapsed;
-	double driftCoeff
+	double driftCoeff;
 
 };
 
