@@ -75,8 +75,9 @@ double Array::ReadCell(int x, int y, char* mode) {
 		static_cast<eNVM*>(cell[x][y])->elapsed = Elapsed;
 		*/
 		
-		static_cast<eNVM*>(cell[x][y])->end = time(NULL);
-		static_cast<eNVM*>(cell[x][y])->elapsed = static_cast<eNVM*>(cell[x][y])->end - static_cast<eNVM*>(cell[x][y])->start;
+		time_t nowtimeRead = time(NULL);
+		static_cast<eNVM*>(cell[x][y])->endTime = nowtimeRead - static_cast<eNVM*>(cell[x][y])->baseTime;
+		static_cast<eNVM*>(cell[x][y])->elapsed = static_cast<eNVM*>(cell[x][y])->endTime - static_cast<eNVM*>(cell[x][y])->startTime;
 
 
 		//드리프트 효과 수식 표현
@@ -199,7 +200,8 @@ void Array::WriteCell(int x, int y, double deltaWeight, double weight, double ma
 	
 	//cell[x][y]의 elapsedTime 측정 시작 시점
 	//static_cast<eNVM*>(cell[x][y])->start = std::chrono::high_resolution_clock::now();
-	static_cast<eNVM*>(cell[x][y])->start = time(NULL);
+	time_t nowTimeWrite = time(NULL);
+	static_cast<eNVM*>(cell[x][y])->startTime = nowTimeWrite - static_cast<eNVM*>(cell[x][y])->baseTime;
 
 	if (AnalogNVM *temp = dynamic_cast<AnalogNVM*>(**cell)) // Analog eNVM
     { 

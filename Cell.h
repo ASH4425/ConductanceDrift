@@ -100,8 +100,10 @@ public:
 	double driftCoeff;
 	*/
 
-	time_t start = time(NULL);
-	time_t end = time(NULL);
+	time_t baseTime = time(NULL);
+	
+	double startTime;
+	double endTime;
 	double elapsed;
 	double driftCoeff
 
