@@ -92,6 +92,13 @@ public:
 	bool conductanceRangeVar;	// Consider variation of conductance range or not
 	double maxConductanceVar;	// Sigma of maxConductance variation (S)
 	double minConductanceVar;	// Sigma of minConductance variation (S)
+
+	//드리프트 효과 구현 위한 변수 생성
+	std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
+	std::chrono::system_clock::time_point end = std::chrono::system_clock::now();
+	double elapsed;
+	double driftCoeff;
+
 };
 
 class SRAM: public Cell {
@@ -132,11 +139,6 @@ public:
 	double PWstepLTD;   // Write pulse width for LTD or weight decrease (s)
 	double writeVoltageSquareSum;   // Sum of V^2 of non-identical pulses (for weight update energy calculation in subcircuits)
 	
-	//드리프트 효과 구현 위한 변수 생성
-	std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
-	std::chrono::system_clock::time_point end = std::chrono::system_clock::now();
-	double elapsed;
-	double driftCoeff;
 	
 
 	virtual double Read(double voltage) = 0;
