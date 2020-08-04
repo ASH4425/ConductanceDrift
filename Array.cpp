@@ -75,19 +75,11 @@ double Array::ReadCell(int x, int y, char* mode) {
 		static_cast<eNVM*>(cell[x][y])->elapsed = Elapsed;
 		*/
 		
-		time_t nowtimeRead = time(NULL);
+		/*time_t nowtimeRead = time(NULL);
 		static_cast<AnalogNVM*>(cell[x][y])->endTime = nowtimeRead - static_cast<AnalogNVM*>(cell[x][y])->baseTime;
 		static_cast<AnalogNVM*>(cell[x][y])->elapsed = static_cast<AnalogNVM*>(cell[x][y])->endTime - static_cast<AnalogNVM*>(cell[x][y])->startTime;
+		*/
 
-
-		//드리프트 효과 수식 표현
-		if (static_cast<AnalogNVM*>(cell[x][y])->conductance > 2e-06 ){
-			static_cast<AnalogNVM*>(cell[x][y])->driftCoeff = 0.0;
-		}else{
-			static_cast<AnalogNVM*>(cell[x][y])->driftCoeff = 0.2 * log((static_cast<AnalogNVM*>(cell[x][y])->conductance) / 0.5e-06) + 0.1;
-		}
-		
-		static_cast<AnalogNVM*>(cell[x][y])->conductance *= pow((1e-06 / (static_cast<AnalogNVM*>(cell[x][y])->elapsed)), (static_cast<AnalogNVM*>(cell[x][y])->driftCoeff));
 		
 		if (static_cast<eNVM*>(cell[x][y])->nonlinearIV) 
         {
@@ -200,8 +192,11 @@ void Array::WriteCell(int x, int y, double deltaWeight, double weight, double ma
 	
 	//cell[x][y]의 elapsedTime 측정 시작 시점
 	//static_cast<eNVM*>(cell[x][y])->start = std::chrono::high_resolution_clock::now();
-	time_t nowTimeWrite = time(NULL);
+	
+	/*time_t nowTimeWrite = time(NULL);
 	static_cast<AnalogNVM*>(cell[x][y])->startTime = nowTimeWrite - static_cast<AnalogNVM*>(cell[x][y])->baseTime;
+	*/
+
 
 	if (AnalogNVM *temp = dynamic_cast<AnalogNVM*>(**cell)) // Analog eNVM
     { 

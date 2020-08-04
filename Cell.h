@@ -100,12 +100,13 @@ public:
 	double driftCoeff;
 	*/
 
-	time_t baseTime = time(NULL);
+	/*time_t baseTime = time(NULL);
 	
 	double startTime;
 	double endTime;
 	double elapsed;
 	double driftCoeff;
+	*/
 
 };
 
@@ -146,6 +147,9 @@ public:
 	double PWinitLTD;   // Initial write pulse width for LTD or weight decrease (s)
 	double PWstepLTD;   // Write pulse width for LTD or weight decrease (s)
 	double writeVoltageSquareSum;   // Sum of V^2 of non-identical pulses (for weight update energy calculation in subcircuits)
+
+
+
 	
 	
 
@@ -196,6 +200,15 @@ public:
 	double paramBLTD;	// Parameter B for LTD nonlinearity
 	double sigmaDtoD;	// Sigma of device-to-device variation on weight update nonliearity baseline
 	double sigmaCtoC;	// Sigma of cycle-to-cycle variation on weight update
+
+	//드리프트 구현 위한 변수 생성(AccessAtCell repo)
+	time_t baseTime = time(NULL);
+
+	double startTime = 0; //dynamic한 변수이나 초기값을 위해 0 할당
+	double endTime;
+	double elapsedTime;
+	double driftCoeff;
+
 
 	RealDevice(int x, int y);
 	double Read(double voltage);	// Return read current (A)

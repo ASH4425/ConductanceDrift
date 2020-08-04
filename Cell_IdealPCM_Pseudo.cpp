@@ -345,6 +345,15 @@ RealDevice::RealDevice(int x, int y) {
 }
 
 double RealDevice::Read(double voltage) {	// Return read current (A)
+
+	//드리프트 효과(AccessAtCell) 끝 시점
+	time_t nowRead = time(NULL);
+	endTime = nowRead - baseTime;
+
+	elapsedTime = endTime - startTime;
+
+
+
 	extern std::mt19937 gen;
 	if (nonlinearIV) {
 		// TODO: nonlinear read
@@ -363,6 +372,15 @@ double RealDevice::Read(double voltage) {	// Return read current (A)
 }
 
 void RealDevice::Write(double deltaWeightNormalized, double weight, double minWeight, double maxWeight) {
+
+	//드리프트 효과(AccessAtCell) 시작 시점
+	time_t nowWrite = time(NULL);
+	startTime = nowWrite - baseTime;
+	
+
+
+
+
 	double conductanceNew = conductance;	// =conductance if no update
 	if (deltaWeightNormalized > 0) {	// LTP
 		deltaWeightNormalized = deltaWeightNormalized/(maxWeight-minWeight);
@@ -438,6 +456,17 @@ void RealDevice::Write(double deltaWeightNormalized, double weight, double minWe
 	
 	conductancePrev = conductance;
 	conductance = conductanceNew;
+
+	//드리프트 효과 수식 표현
+	if (conductanceNew > 2e-06) {
+		driftCoeff = 0.0;
+	}
+	else {
+		driftCoeff = 0.2 * log(conductanceNew / 0.5e-06) + 0.1;
+	}
+
+	conductanceNew *= pow((1e-06 / elapsedTime), driftCoeff);
+
 }
 
 /* Measured device */
